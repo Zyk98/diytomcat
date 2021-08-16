@@ -7,6 +7,8 @@
 涉及到的主要功能包括:
     **构建Tomcat内置对象，处理多种文件格式(包括二进制文件)，处理Servlet请求，处理Jsp请求，客户端跳转，过滤器，文件部署以及监听器**的功能。
 
+![10584](https://gitee.com/zyk98/images/raw/master/img/10584.png)
+
 ## Tomcat内置对象
    - ### Request
       Request对象主要用于获取请求的相关信息uri、requestString、头信息、请求参数   
@@ -20,12 +22,12 @@
         - 加载时机：在服务器启动的时候把webapps目录下的文件夹加载成Context对象了
       
         - 解析时机：在构造Request的时候就把Context解析出来
-        
+      
         ```
         String fileName = StrUtil.removePrefix(uri, "/");
         File file = FileUtil.file(context.getDocBase(), fileName);
-        ````
-        
+      ````
+      
         优势：将uri中访问的资源与实际服务器资源对应起来，代码如上
         1. 通过配置的方式来访问Context
             主要是使用XML文件来进行配置，使用Jsoup进行解析，遍历所有的Context标签的将里面的内容封装到Context
@@ -101,10 +103,10 @@
         ```
 ### 多种文件格式
    - 非二进制文件
-   使用WebXMLUtil类进行解析，使用Map结构将所有的类型进行保存，之后根据类型名获取相应的类型。为了防止多次初始化，使用了Synchronized进行同步
+      使用WebXMLUtil类进行解析，使用Map结构将所有的类型进行保存，之后根据类型名获取相应的类型。为了防止多次初始化，使用了Synchronized进行同步
    - 二进制文件
-   Response使用字节数组存放二进制文件，增加set与get方法。在Server中修改读取文件的方式，直接读取定位到的文件字节数组，之后封装到Response中
-    
+      Response使用字节数组存放二进制文件，增加set与get方法。在Server中修改读取文件的方式，直接读取定位到的文件字节数组，之后封装到Response中
+
 ### 处理Servlet
 
    - #### 配置Servelt功能
@@ -138,7 +140,7 @@
             this.webappClassLoader = new WebappClassLoader(docBase, commonClassLoader);
             ```
             上面代码在构造方法中进行初始化，先获得Bootstrap里的commonClassLoader之后再初始化webappClassLoader 
-    - #### InvokerServlet处理Servlet
+        - #### InvokerServlet处理Servlet
         - 设计为单例设计模式
         - 处理Servlet的流程
         ```
@@ -151,7 +153,7 @@
         Class servletClass = context.getWebappClassLoader().loadClass(servletClassName);
         Object servletObject = context.getServlet(servletClass);
         ReflectUtil.invoke(servletObject, "service", request, response);
-
+        
         ```
    - #### DefaultServlet处理静态资源
         - 采用单例设计模式
@@ -203,16 +205,17 @@
         1. 一个jsp文件对应一个JspClassLoader
         2. 如果jsp文件修改需要换一个新的JspClassLoader
         3. JspClassLoader基于jsp文件转译并编译出来的class文件，进行类加载
-    - #### 跳转功能
-    - 客户端跳转
+        - #### 跳转功能
+        - 客户端跳转
+
     302临时跳转
     - 服务端跳转
     请求转发功能即服务器内部修了request的uri，然后再执行一次HttpProcessor中的execute方法。
 
 ### 过滤器
  - 责任链模式
-  使多个对象都有机会处理请求，从而避免请求的发送者和处理者之间的耦合关系，将这和对象连成一条链并沿着
-  这条链传递请求，直到有一个对象来处理它
+    使多个对象都有机会处理请求，从而避免请求的发送者和处理者之间的耦合关系，将这和对象连成一条链并沿着
+    这条链传递请求，直到有一个对象来处理它
  - 在Context中新建一系列跟过滤器加载和初始化的参数
     ```
     private Map<String, List<String>> url_filterClassName;

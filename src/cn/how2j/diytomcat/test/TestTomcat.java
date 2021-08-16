@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -45,22 +46,34 @@ public class TestTomcat {
 
     @Test
     public void testTimeConsumeHtml() throws InterruptedException {
-        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(20, 20, 60, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>(10));
+//        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(20, 20, 60, TimeUnit.SECONDS,
+//                new LinkedBlockingQueue<Runnable>(10));
+//        TimeInterval timeInterval = DateUtil.timer();
+//
+//        for (int i = 0; i < 3; i++) {
+//            threadPool.execute(new Runnable() {
+//                public void run() {
+//                    getContentString("/timeConsume.html");
+//                }
+//            });
+//        }
+//        threadPool.shutdown();
+//        threadPool.awaitTermination(1, TimeUnit.HOURS);
+//
+//        long duration = timeInterval.intervalMs();
+//
+//        Assert.assertTrue(duration < 3000);
+
+        CountDownLatch countDownLatch = new CountDownLatch(3);
         TimeInterval timeInterval = DateUtil.timer();
-
         for (int i = 0; i < 3; i++) {
-            threadPool.execute(new Runnable() {
-                public void run() {
-                    getContentString("/timeConsume.html");
-                }
-            });
+            new Thread(() -> {
+                getContentString("/timeConsume.html");
+                countDownLatch.countDown();
+            }, "Thread " + i).start();
         }
-        threadPool.shutdown();
-        threadPool.awaitTermination(1, TimeUnit.HOURS);
-
+        countDownLatch.await();
         long duration = timeInterval.intervalMs();
-
         Assert.assertTrue(duration < 3000);
     }
 

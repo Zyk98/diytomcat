@@ -26,7 +26,7 @@ public class JspClassLoader extends URLClassLoader {
     }
 
     //获取jsp对用的类加载器
-    public static JspClassLoader getJspClassLoader(String uri, Context context) {
+    public static synchronized JspClassLoader getJspClassLoader(String uri, Context context) {
         String key = context.getPath() + "/" + uri;
         JspClassLoader loader = map.get(key);
         //如果没有类加载器
