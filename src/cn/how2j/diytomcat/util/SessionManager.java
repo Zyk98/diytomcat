@@ -15,11 +15,15 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionManager {
     //存储session
-    private static Map<String, StandardSession> sessionMap = new HashMap<>();
+    private static Map<String, StandardSession> sessionMap = new ConcurrentHashMap<>();
     private static int defaultTimeout = getTimeout();
 
     //开启检测session过期的线程
@@ -85,7 +89,7 @@ public class SessionManager {
         for (String jsessionid : jsessionids) {
             StandardSession session = sessionMap.get(jsessionid);
             long interval = System.currentTimeMillis() - session.getLastAccessedTime();
-            if (interval > session.getMaxInactiveInterval() * 1000)
+            if (interval > session.getMaxInactiveInterval() * 1000 * 60)
                 outdateJessionIds.add(jsessionid);
         }
 
