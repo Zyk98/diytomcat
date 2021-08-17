@@ -90,6 +90,7 @@ public class Connector implements Runnable {
                         }
                     }
                 };
+                // 把线程r丢给线程池执行
                 ThreadPoolUtil.run(r);
             }
 

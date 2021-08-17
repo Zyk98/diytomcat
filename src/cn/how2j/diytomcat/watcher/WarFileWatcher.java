@@ -19,7 +19,6 @@ public class WarFileWatcher {
 
     public WarFileWatcher(Host host) {
         this.monitor = WatchUtil.createAll(Constant.webappsFolder, 1, new Watcher() {
-
             private void dealWith(WatchEvent<?> event, Path currentPath) {
                 synchronized (WarFileWatcher.class) {
                     String fileName = event.context().toString();

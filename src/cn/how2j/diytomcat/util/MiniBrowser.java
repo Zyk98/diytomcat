@@ -19,7 +19,7 @@ import java.util.Set;
  * 2. 获取完整的http响应信息
  * 3. 方法
  * 1. getHttpBytes:返回二进制http的响应
- * 2. getHttpString:返回字符串的http向响应 - 将字节数组转化为字符串
+ * 2. getHttpString:返回字符串的http响应 - 将字节数组转化为字符串
  * 3. getContentBytes:返回二进制的http响应内容(去掉头的html部分)
  * 4. getContentString:返回字符串的http响应内容(去掉头的html部分) - 将字节数组转化为字符串
  */
@@ -74,7 +74,7 @@ public class MiniBrowser {
     }
 
     public static byte[] getContentBytes(String url, boolean gzip, Map<String, Object> params, boolean isGet) {
-        //获取相应同内容
+        //获取响应体内容
         byte[] response = getHttpBytes(url, gzip, params, isGet);
         //双回车相当于分割线
         byte[] doubleReturn = "\r\n\r\n".getBytes();

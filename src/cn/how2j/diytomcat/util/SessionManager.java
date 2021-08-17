@@ -34,7 +34,7 @@ public class SessionManager {
     public static HttpSession getSession(String jsessionid, Request request, Response response) {
         /**
          * 获取session的主逻辑
-         * 1. 吐过浏览器没有传送给session过来，那么就新建一个和session
+         * 1. 如果浏览器没有传送给session过来，那么就新建一个和session
          * 2. 如果浏览器传过来的session无效，那么新建一个sessionid
          * 3. 如果实现现在的session，那么就修改它的lastAccessedTime，建立cookie
          */

@@ -198,7 +198,7 @@ public class Request extends BaseRequest {
 
     public String getParameter(String name) {
         //从map结构中获取
-        String values[] = parameterMap.get(name);
+        String[] values = parameterMap.get(name);
         if (null != values && 0 != values.length)
             return values[0];
         return null;
@@ -252,37 +252,30 @@ public class Request extends BaseRequest {
     }
 
     public String getLocalAddr() {
-
         return socket.getLocalAddress().getHostAddress();
     }
 
     public String getLocalName() {
-
         return socket.getLocalAddress().getHostName();
     }
 
     public int getLocalPort() {
-
         return socket.getLocalPort();
     }
 
     public String getProtocol() {
-
         return "HTTP:/1.1";
     }
 
     public String getRemoteAddr() {
         InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
         String temp = isa.getAddress().toString();
-
         return StrUtil.subAfter(temp, "/", false);
-
     }
 
     public String getRemoteHost() {
         InetSocketAddress isa = (InetSocketAddress) socket.getRemoteSocketAddress();
         return isa.getHostName();
-
     }
 
     public int getRemotePort() {

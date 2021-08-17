@@ -490,7 +490,7 @@ public class Context {
         listeners.add(listener);
     }
 
-    //从web.xml中扫面监听器类
+    //从web.xml中扫描监听器类
     public void loadListeners() {
         try {
             if (!contextWebXmlFile.exists())

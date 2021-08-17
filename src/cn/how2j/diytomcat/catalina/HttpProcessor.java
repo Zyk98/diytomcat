@@ -33,6 +33,8 @@ public class HttpProcessor {
             Context context = request.getContext();
             //通过uri获取servlet的类名
             String servletClassName = context.getServletClassName(uri);
+
+            // workingServlet存储InvokerServlet、JspServlet或者是DefaultServlet
             HttpServlet workingServlet;
             if (null != servletClassName)
                 workingServlet = InvokerServlet.getInstance();
@@ -124,7 +126,7 @@ public class HttpProcessor {
         //得到响应的跳转路径
         String redirectPath = response.getRedirectPath();
         String head_text = Constant.response_head_302;
-        //响应头：相应行 + 跳转路径
+        //响应头：响应行 + 跳转路径
         String header = StrUtil.format(head_text, redirectPath);
         //响应头内容转化为字节数组
         byte[] responseBytes = header.getBytes("utf-8");
