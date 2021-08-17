@@ -45,6 +45,8 @@ public class HttpProcessor {
             //得到过滤器责任链
             ApplicationFilterChain filterChain = new ApplicationFilterChain(filters, workingServlet);
             filterChain.doFilter(request, response);
+
+            //如果是服务端跳转
             if (request.isForwarded())
                 return;
             if (Constant.CODE_200 == response.getStatus()) {
